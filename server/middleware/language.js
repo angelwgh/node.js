@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
         locale = config.lang;
     }
 
-    console.log(locale)
+    // console.log(locale)
     // 设置i18n对这个请求所使用的语言
     res.setLocale(locale);
 

@@ -5,13 +5,27 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+
 const language = require('./middleware/language')
+const authUser = require('./middleware/authUser')
 const config = require('../configs')
 // const nunjucks = require('nunjucks')
 const router = require('./routers')
 
 const app = express()
 
+
+// body 解析中间件
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+// cookie 解析中间件
+app.use(cookieParser(config.session_secret))
+
+
+
+// session配置
 
 let sessionConfig = {
     secret: config.encrypt_key,
@@ -28,9 +42,14 @@ let sessionConfig = {
         })
 }
 
+
 app.use(session(sessionConfig));
 
 app.use(language)
+// // 鉴权用户
+app.use(authUser)
+
+
 app.use('/', router)
 
 

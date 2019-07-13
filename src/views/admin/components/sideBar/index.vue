@@ -33,7 +33,7 @@ export default {
     },
 
     mounted: function () {
-        console.log(this.$route.path)
+        // console.log(this.$route.path)
     },
     
 }

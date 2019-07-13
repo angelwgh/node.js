@@ -9,13 +9,20 @@ import store from './store'
 // })
 
 router.beforeEach( (to, from, next) => {
-	console.log(store.getters.permission_status)
-	if(!store.getters.permission_status){
+	if(to.meta.allow === 'all'){
+		next()
+	}else if(!store.getters.permission_status){
 		store.dispatch('GenerateRoutes').then(()=> {
-			router.addRoutes(store.getters.addRouters);
+			const addRouters = store.getters.addRouters
+			router.addRoutes(addRouters); // 动态添加可访问路由表
 			store.dispatch('setPermissionStatus', true)
-			next({ ...to, replace: true })
+			// console.log(to)
+			console.log(addRouters)
+			// next({ ...to, replace: true})
+			// to.meta.replace = true
+			next({...to, replace: true})
 		})
+		// next(false)
 	}else{
 		next()
 	}

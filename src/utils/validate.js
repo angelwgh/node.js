@@ -1,6 +1,3 @@
-/**
- * Created by jiachenpan on 16/11/18.
- */
 
 export function isvalidUsername(str) {
   const valid_map = ['admin', 'editor']
@@ -39,4 +36,33 @@ export function validateAlphabets(str) {
 export function validateEmail(email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return re.test(email)
+}
+
+
+export default {
+    username(rule, value, callback) {
+        if(!value){
+            callback(new Error('用户名不能为空！'))
+        }
+        else if(value.length < 6 || value.length > 18){
+            callback(new Error('用户名长度必须在6-18位之间！'))
+        }
+        else{
+            callback()
+        }
+    },
+    password(rule, value, callback) {
+        if(!value){
+            callback(new Error('密码不能为空！'))
+        }
+        else if(!/[a-zA-Z]/.test(value) || !/[0-9]/.test(value)){
+            callback(new Error('密码必须包含字母和数字！'))
+        }
+        else if(value.length < 8 || value.length > 18){
+            callback(new Error('密码长度必须在8-18位之间！'))
+        }
+        else{
+            callback()
+        }
+    }
 }

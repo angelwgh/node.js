@@ -4,7 +4,7 @@ const config = require('../../configs');
 
 
 mongoose.connect('mongodb://' + config.HOST + ':' + config.PORT + '/' + config.DB, { useMongoClient: true });
-
+mongoose.set('useFindAndModify', false)
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 
@@ -22,4 +22,5 @@ db.on('close', function () {
 });
 
 
-exports.User = require('./User')
+exports.User = require('./UserModel')
+exports.Permission = require('./PermissionModel')

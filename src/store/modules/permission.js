@@ -11,9 +11,9 @@ export default {
     	status: false,
 	},
 	getters: {
-		permission_routers: state => state.routers,
-		addRouters: state => state.addRouters,
-		permission_status: state => state.status
+			permission_routers: state => state.routers,
+			addRouters: state => state.addRouters,
+			permission_status: state => state.status
 	},
 	mutations: {
 	    SET_ROUTERS: (state, routers) => {
@@ -27,10 +27,10 @@ export default {
 	actions: {
 	    GenerateRoutes({ commit }, data) {
 		    return new Promise(resolve => {
-				asyncRouterMap.then(router => {
-					commit('SET_ROUTERS', router)
-		        	resolve()
-				})
+					asyncRouterMap.then(router => {
+						commit('SET_ROUTERS', router)
+								resolve()
+					})
 		        // commit('SET_ROUTERS', asyncRouterMap)
 		        // resolve()
 		    })

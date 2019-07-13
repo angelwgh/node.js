@@ -6,7 +6,7 @@
 export default {
     name: 'TagsView',
     mounted () {
-    	console.log(this.$route)
+    	// console.log(this.$route)
     }
 }
 </script>

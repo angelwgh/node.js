@@ -6,16 +6,15 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'app',
-  components: {
+  	name: 'app',
+  	components: {
 
-  },
-  mounted() {
-
-  }
+  	},
+  	watch: {
+  	}
 }
 </script>
 

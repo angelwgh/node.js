@@ -1,0 +1,19 @@
+.permissions-manage{
+	width: 100%;
+	height: 100%;
+	overflow:auto;
+	box-sizing: border-box;
+	padding: 15px;
+	background-color: #fff;
+
+	.custom-tree-node{
+		display: flex;
+		flex: 1;
+		justify-content: space-between;
+
+		.el-button--mini.is-circle{
+			padding: 4px;
+		}
+	}
+}
+

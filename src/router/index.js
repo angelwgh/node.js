@@ -1,6 +1,7 @@
 
 import admin from '@/views/admin'
-import { async } from 'q';
+import login from '@/views/login/login'
+
 Vue.use(VueRouter)
 
 
@@ -20,14 +21,32 @@ export const constantRouterMap = [
 		children: [{
 			path: 'home',
 			name: 'home',
+			meta:{
+				// allow: 'all',
+			},
 			component: () => import('@/views/home/home'),
-			}
+		},{
+			path: 'permissionsManage',
+			name: 'permissionsManage',
+			component: () => import('@/views/permissionsManage'),
+		}
 		]
+	},
+	{
+		path: '/login',
+		component:login,
+		hidden: true,
+		meta:{
+			allow: 'all',
+		},
 	},
 	{
 	    path: '/404',
 	    component: () => import('@/views/error/404'),
-	    hidden: true
+		hidden: true,
+		meta:{
+			allow: 'all',
+		}
 	  },
 ]
 
@@ -96,7 +115,7 @@ function buildTree(list) {
 
 // 处理路由参数
 function renderTemp(temp, parent = false) {
-	console.log(temp)
+	// console.log(temp)
 	if(parent){
 		temp.path = '';
 		temp.component = admin;

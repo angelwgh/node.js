@@ -61,7 +61,7 @@
 				return path.resolve(this.basePath, routePath)
 			},
 			clickLink(routePath, e) {
-				console.log(routePath)
+				// console.log(routePath)
 				if(!validateURL(routePath)){
 					const path = this.resolvePath(routePath)
 					this.$router.push(path)

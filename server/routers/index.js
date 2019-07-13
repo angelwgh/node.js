@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../controller/User')
 
+
+const UserRouter = require('./userRouter')
+const permissionRouter = require('./permissionRouter')
 
 router.get('/test', (req, res, next)=> {
 	// console.log(User)
@@ -13,8 +15,7 @@ router.get('/test', (req, res, next)=> {
 	res.send(req.session)
 })
 
-router.get('/user/register', (req, res, next)=> {
-	// console.log(User)
-	User.regAction(req, res, next)
-})
+router.use('/', UserRouter)
+router.use('/', permissionRouter)
+
 module.exports = router

@@ -9,8 +9,8 @@
     </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import { Navbar, Sidebar, mainContent, TagsView } from './components'
-
 export default {
     name: 'admin',
     components: {
@@ -26,9 +26,14 @@ export default {
         classObj() {
           return {
             hideSidebar: !this.sidebar.opened,
-            openSidebar: this.sidebar.opened
+            openSidebar: this.sidebar.opened,
+            loaded: this.loaded && this.logined
           }
-        }
+        },
+        ...mapGetters(["loaded", 'logined']),
+    },
+    mounted() {
+        console.log(this.loaded)
     }
 
 }
@@ -39,8 +44,12 @@ export default {
         position: relative;
         width: 100%;
         height: 100%;
+        opacity: 0;
+        transition:0.4s;
     }
-
+    .main-wrapper.loaded{
+        opacity: 1;
+    }
     .sidebar-container{
         transition: width 0.28s;
         width: 180px !important;
