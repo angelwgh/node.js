@@ -127,10 +127,8 @@
 				this.opt.num_1 ++;
 
 				$('#' + id_1).text(this.handlerTime())
-				console.log($('.answer input', _doc))
 				if($('.answer input', _doc).length > 0){
 					$('.answer input', _doc).eq(0).click()
-					console.log($('.submit-answer', _doc))
 					$('.submit-answer', _doc)[0].click()
 					// this.opt.num_2++
 					$('#' + id_2).text(++this.opt.num_2)
