@@ -7,14 +7,13 @@
 			@open="handleOpen">
 			<el-form label-width="150px" :model="form" :rules="rules" ref="form">
 				<el-form-item label="上级菜单">
-					<el-select v-model="form.parentId" placeholder="请选择">
-						<el-option
-						      v-for="item in sitePermissions"
-						      :key="item._id"
-						      :label="item.label"
-						      :value="item._id">
-						    </el-option>
-					</el-select>
+					<el-cascader
+					v-model="cascader"
+				    :options="list"
+				    :props="{ checkStrictly: true, value: '_id'}"
+				    :disabled="dialogData.type == 'edit'" 
+					clearable
+				    @change="cascaderChange"></el-cascader>
 				</el-form-item>
 				<el-form-item label="权限描述" prop="label">
 					<el-input v-model="form.label"></el-input>
@@ -67,6 +66,7 @@
 </template>
 <script>
 	import { mapGetters } from "vuex";
+
 	const defaultForm = {
 		name: '',
 	    api: '',
@@ -82,7 +82,8 @@
 
 	export default {
 		props: {
-			dialogData: Object
+			dialogData: Object,
+			list: Object
 		},
 		data () {
 			return{
@@ -97,6 +98,7 @@
 						label: '操作和功能'
 					}
 				],
+				cascader: [],
 				rules: {
 					name: [{required: true, message: '请输入权限描述', trigger: 'blur' }],
 					label: [{required: true, message: '请输入权限名称', trigger: 'blur' }],
@@ -108,10 +110,17 @@
 	    	...mapGetters(["sitePermissions"]),
 	    },
 		methods: {
+			cascaderChange(value) {
+				// console.log(this.form.parentId)
+				console.log(value)
+				// this.form.parentId = value[0]
+
+			},
 			save() {
 				this.$refs.form.validate(valid => {
 					if(valid){
 						const form ={};
+						this.form.parentId = this.cascader[0]
 						this.$store.dispatch('addSitePermission', this.form)
 							.then(res =>{
 								if(res.data.status == 200){
@@ -129,6 +138,7 @@
 			},
 			// 初始化表单数据
 			initFormData(data) {
+
 				for(let key in this.form){
 					if(data[key] !== undefined){
 						this.form[key] = data[key]
@@ -136,19 +146,18 @@
 				}
 			},
 			handleOpen() {
-				let data;
+				this.initFormData(defaultForm)
+				let data = {};
+				let parentId = this.dialogData.data ? this.dialogData.data.parentId : '0';
 				if(this.dialogData.type == 'edit'){
 					data = this.dialogData.data
 					
 				}
 				if(this.dialogData.type == 'add'){
-					data = {
-						parentId: this.dialogData.data ? this.dialogData.data.parentId : '0'
-					}
+					parentId = this.dialogData.data ? this.dialogData.data._id : '0';
 				}
-
-				// console.log(this.dialogData)
-			this.initFormData(data)
+				this.cascader = [parentId]
+				this.initFormData(data)
 			}
 		},
 		mounted() {

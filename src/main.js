@@ -1,11 +1,10 @@
-// import Vue from 'vue'
-
 import App  from './App.vue'
-// import store from './store'
 import router from './router'
 import store from './store'
 
+import './utils/axiosConfig.js'
 import './permission.js'
+
 
 import 'normalize.css'
 import 'element-ui/lib/theme-chalk/index.css'

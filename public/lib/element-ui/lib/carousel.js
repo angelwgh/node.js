@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 90);
+/******/ 	return __webpack_require__(__webpack_require__.s = 112);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,21 +189,7 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/utils/resize-event");
-
-/***/ }),
-
-/***/ 33:
-/***/ (function(module, exports) {
-
-module.exports = require("throttle-debounce/throttle");
-
-/***/ }),
-
-/***/ 90:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -353,7 +339,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/carousel/src/main.vue?vue&type=template&id=5d5d1482&
 
 // EXTERNAL MODULE: external "throttle-debounce/throttle"
-var throttle_ = __webpack_require__(33);
+var throttle_ = __webpack_require__(25);
 var throttle_default = /*#__PURE__*/__webpack_require__.n(throttle_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/resize-event"
@@ -689,6 +675,20 @@ main.install = function (Vue) {
 };
 
 /* harmony default export */ var carousel = __webpack_exports__["default"] = (main);
+
+/***/ }),
+
+/***/ 14:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/utils/resize-event");
+
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, exports) {
+
+module.exports = require("throttle-debounce/throttle");
 
 /***/ })
 

@@ -1,27 +1,27 @@
 {
-  "_from": "element-ui",
-  "_id": "element-ui@2.8.2",
+  "_from": "element-ui@2.10.1",
+  "_id": "element-ui@2.10.1",
   "_inBundle": false,
-  "_integrity": "sha512-LABKHKGUyewFNvpf9BQLecB659Wq0XYvyP1tBveZ4RWpdlPSylDfGW/RLvDYU7zuCBoRasdZAz7ryjOwq1lLNg==",
+  "_integrity": "sha512-V3WMDoVd1rOT+UI4xasvS8hmUkmc0ezXRuLzlTznBD0bN6jXAiGOeCtmYjj8GFN3lpGNeKyQ/8LCAFuAbxaEww==",
   "_location": "/element-ui",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "element-ui",
+    "raw": "element-ui@2.10.1",
     "name": "element-ui",
     "escapedName": "element-ui",
-    "rawSpec": "",
+    "rawSpec": "2.10.1",
     "saveSpec": null,
-    "fetchSpec": "latest"
+    "fetchSpec": "2.10.1"
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/element-ui/-/element-ui-2.8.2.tgz",
-  "_shasum": "21a7a4cb92616b0f8b75d4d4e637d3a1cd8c09de",
-  "_spec": "element-ui",
+  "_resolved": "https://registry.npmjs.org/element-ui/-/element-ui-2.10.1.tgz",
+  "_shasum": "1011016e50e76f5dae6fbf9c86e53b6e53fcb9eb",
+  "_spec": "element-ui@2.10.1",
   "_where": "F:\\wgh\\code\\node.js",
   "bugs": {
     "url": "https://github.com/ElemeFE/element/issues"
@@ -59,7 +59,7 @@
     "cross-env": "^3.1.3",
     "css-loader": "^2.1.0",
     "es6-promise": "^4.0.5",
-    "eslint": "4.14.0",
+    "eslint": "4.18.2",
     "eslint-config-elemefe": "0.1.1",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-html": "^4.0.1",
@@ -90,7 +90,6 @@
     "mocha": "^6.0.2",
     "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "perspective.js": "^1.0.0",
     "postcss": "^7.0.14",
     "progress-bar-webpack-plugin": "^1.11.0",
     "rimraf": "^2.5.4",
@@ -103,10 +102,10 @@
     "uglifyjs-webpack-plugin": "^2.1.1",
     "uppercamelcase": "^1.1.0",
     "url-loader": "^1.0.1",
-    "vue": "^2.5.16",
-    "vue-loader": "^15.2.4",
+    "vue": "2.5.21",
+    "vue-loader": "^15.7.0",
     "vue-router": "^3.0.1",
-    "vue-template-compiler": "^2.5.16",
+    "vue-template-compiler": "2.5.21",
     "vue-template-es2015-compiler": "^1.6.0",
     "webpack": "^4.14.0",
     "webpack-cli": "^3.0.8",
@@ -143,7 +142,7 @@
   "main": "lib/element-ui.common.js",
   "name": "element-ui",
   "peerDependencies": {
-    "vue": "^2.5.16"
+    "vue": "^2.5.17"
   },
   "repository": {
     "type": "git",
@@ -169,5 +168,5 @@
   "style": "lib/theme-chalk/index.css",
   "typings": "types/index.d.ts",
   "unpkg": "lib/index.js",
-  "version": "2.8.2"
+  "version": "2.10.1"
 }

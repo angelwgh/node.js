@@ -1,4 +1,4 @@
-import Axios from "axios";
+// import axios from "axios";
 
 export default {
 	state: {
@@ -61,7 +61,7 @@ export default {
 		},
 		logout({commit}) {
 			return new Promise(resolve => {
-				Axios({
+				axios({
 					url: '/api/user/logout'
 				}).then(res => {
 					console.log(res)
@@ -76,7 +76,7 @@ export default {
 		},
 		getUserInfo({ commit }) {
 			return new Promise(resolve => {
-				Axios({
+				axios({
 					url: '/api/user/getUserInfo'
 				}).then(function(res){
 					// console.log(res)
@@ -96,7 +96,7 @@ export default {
 			/**
 			 * 获取网站的权限列表
 			 */
-			return await Axios({
+			return await axios({
 				url:'/api/permission/getall',
 				method: 'get',
 			}).then(res=>{
@@ -110,7 +110,7 @@ export default {
 			/**
 			 * 添加权限
 			 */
-			return await Axios({
+			return await axios({
 				url:'/api/permission/add',
 					method: 'post',
 					data
@@ -125,7 +125,7 @@ export default {
 			/**
 			 * 删除权限
 			 */
-			return await Axios({
+			return await axios({
 				url:'/api/permission/del',
 					method: 'post',
 					data

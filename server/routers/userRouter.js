@@ -23,4 +23,9 @@ router.get('/user/logout', (req, res, next)=> {
 
 router.post('/user/addPermission' ,User.addPermissionAction)
 
+router.get('/user/getMembersList' ,User.getMembersListAction)
+
+router.post('/user/updataMember', User.updataMemberAction)
+router.post('/user/addMember', User.addMemberAction)
+router.post('/user/delMember', User.delMemberAction)
 module.exports = router;

@@ -1,7 +1,7 @@
 <template>
 	<div class="permissions-manage">
-		<form-dialog :dialog-data="formDialogData"></form-dialog>
-		<el-button @click.native="formDialogData.show = true">添加</el-button>
+		<form-dialog :dialog-data="formDialogData" :list="list"></form-dialog>
+		<el-button @click.native="addSitePermission">添加</el-button>
 		<el-tree :data="list" 
 				 :props="defaultProps" 
 				 default-expand-all
@@ -15,7 +15,8 @@
 								@click="editSitePermission(data)"></el-button>
 					
 					<el-button size="mini" icon="el-icon-plus" type="success" circle
-								@click="addSitePermission(data)">
+								@click="addSitePermission(data)"
+								:disabled="data.type == '1'">
 						
 					</el-button>
 					<el-button 	size="mini" 
@@ -57,7 +58,7 @@
 
 	    	list() {
 
-	    		return utils.buildTree(this.sitePermissions)
+	    		return utils.buildTree(_.cloneDeep(this.sitePermissions))
 	    	}
 	    },
 		methods: {
@@ -65,27 +66,27 @@
 				this.$store.dispatch("getSitePermissions")
 			},
 
-			addSitePermission(){
-
+			addSitePermission(data){
+				this.formDialogData.type = 'add';
+				this.formDialogData.data = data
+				this.formDialogData.show = true;
 			},
 			// 编辑
 			editSitePermission(data) {
-				console.log(data)
-				this.formDialogData.show = true;
+				// console.log(data)
 				this.formDialogData.type = 'edit';
 				this.formDialogData.data = data
+				this.formDialogData.show = true;
+				
 			},
 			// 删除
 			delSitePermission(id) {
-				this.$confirm('检测到未保存的内容，是否在离开页面前保存修改？', '确认信息', {
+				this.$confirm('此操作将永久删除这条记录，是否继续', '删除权限', {
 		          distinguishCancelAndClose: true,
 		          confirmButtonText: '确认删除',
-		          // cancelButtonText: '放弃修改'
 		        })
 		        .then(() => {
 		        	return this.$store.dispatch("delSitePermission", {id})
-
-		        	
 		        })
 		        .then( res => {
 		        	console.log(res)
@@ -101,7 +102,9 @@
 		        		})
 		        	}
 		        })
-		        .catch( action => {})
+		        .catch( action => {
+		        	console.log(action)
+		        })
 			}
 			
 		},

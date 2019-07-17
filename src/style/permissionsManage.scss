@@ -10,6 +10,7 @@
 		display: flex;
 		flex: 1;
 		justify-content: space-between;
+		font-size: 14px;
 
 		.el-button--mini.is-circle{
 			padding: 4px;
@@ -17,3 +18,11 @@
 	}
 }
 
+.user-manage{
+	width: 100%;
+	height: 100%;
+	overflow:auto;
+	box-sizing: border-box;
+	padding: 15px;
+	background-color: #fff;
+}

@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 54);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -196,14 +196,14 @@ module.exports = require("element-ui/lib/utils/resize-event");
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/utils/util");
 
 /***/ }),
 
-/***/ 54:
+/***/ 60:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -227,7 +227,7 @@ render._withStripped = true
 // CONCATENATED MODULE: ./packages/tabs/src/tab-bar.vue?vue&type=template&id=2031f33a&
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/util"
-var util_ = __webpack_require__(4);
+var util_ = __webpack_require__(3);
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib!./node_modules/vue-loader/lib??vue-loader-options!./packages/tabs/src/tab-bar.vue?vue&type=script&lang=js&
 //

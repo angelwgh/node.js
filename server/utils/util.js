@@ -3,9 +3,10 @@ module.exports = {
 
     // 封装api返回的数据
     handleApiData (res, resCode, resMsg, data = {}, type = '') {
+
         let sendData = {
             status: resCode,
-            message: resMsg,
+            message: res.__("validate_error_getSuccess", { success: resMsg }),
             server_time: (new Date()).getTime(),
             data
         }

@@ -40,13 +40,13 @@ const PermissionSchema = new Schema({
 // __v: 0
 // _id: "SkFHdYEhg"
 // 在调用 toJSON 和 toObject 方法时, 使所有 getters 方法生效
-// PermissionSchema.set('toJSON', { getters: true ,virtuals: false, depopulate: true});
-// // PermissionSchema.set('toObject', { getters: true, virtuals: true });
+PermissionSchema.set('toJSON', { getters: true ,virtuals: false});
+// PermissionSchema.set('toObject', { getters: true, virtuals: true });
 
-// PermissionSchema.path('date').get(function (v) {
-//     // console.log(v)
-//     return moment(v).format("YYYY-MM-DD HH:mm:ss");
-// });
+PermissionSchema.path('date').get(function (v) {
+    // console.log(v)
+    return moment(v).format("YYYY-MM-DD HH:mm:ss");
+});
 
 const Permission = mongoose.model("Permission", PermissionSchema);
 

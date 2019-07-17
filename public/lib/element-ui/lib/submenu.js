@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 114);
+/******/ 	return __webpack_require__(__webpack_require__.s = 124);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -189,21 +189,21 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 114:
+/***/ 124:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
 // EXTERNAL MODULE: external "element-ui/lib/transitions/collapse-transition"
-var collapse_transition_ = __webpack_require__(23);
+var collapse_transition_ = __webpack_require__(28);
 var collapse_transition_default = /*#__PURE__*/__webpack_require__.n(collapse_transition_);
 
 // EXTERNAL MODULE: ./packages/menu/src/menu-mixin.js
-var menu_mixin = __webpack_require__(34);
+var menu_mixin = __webpack_require__(35);
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
-var emitter_ = __webpack_require__(3);
+var emitter_ = __webpack_require__(4);
 var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // EXTERNAL MODULE: external "element-ui/lib/utils/vue-popper"
@@ -418,6 +418,9 @@ var poperMixins = {
       this.dispatch('ElSubmenu', 'mouse-leave-child');
       clearTimeout(this.timeout);
       this.timeout = setTimeout(function () {
+        if (_this3.appendToBody) {
+          _this3.rootMenu.openedMenus = [];
+        }
         !_this3.mouseInChild && _this3.rootMenu.closeMenu(_this3.index);
       }, this.hideTimeout);
     },
@@ -613,21 +616,14 @@ submenu.install = function (Vue) {
 
 /***/ }),
 
-/***/ 23:
+/***/ 28:
 /***/ (function(module, exports) {
 
 module.exports = require("element-ui/lib/transitions/collapse-transition");
 
 /***/ }),
 
-/***/ 3:
-/***/ (function(module, exports) {
-
-module.exports = require("element-ui/lib/mixins/emitter");
-
-/***/ }),
-
-/***/ 34:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -672,6 +668,13 @@ module.exports = require("element-ui/lib/mixins/emitter");
     }
   }
 });
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, exports) {
+
+module.exports = require("element-ui/lib/mixins/emitter");
 
 /***/ }),
 

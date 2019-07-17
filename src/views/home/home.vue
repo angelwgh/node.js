@@ -91,7 +91,7 @@
 			}
 		},
 		mounted () {
-			this.get()
+			// this.get()
 		}
 	}
 </script>

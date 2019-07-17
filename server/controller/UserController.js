@@ -1,6 +1,7 @@
 const UserModel = require('../models').User
 const { service , util} = require('../utils')
 const config = require('../../configs')
+const _ = require('lodash')
 
 class User {
     constructor () {
@@ -102,6 +103,101 @@ class User {
         await UserModel.findOneAndUpdate({'username': username}, {$set: {permissions: req.body.id}})
         res.send(user)
     }
+
+    // 获取会员列表
+
+    async getMembersListAction(req, res, next){
+        try{
+            let pageno = Number(req.query.pageno) || 1;
+            let pagesize = Number(req.query.pagesize) || 10
+            const members = await UserModel.find({}, { password: 0 , __v: 0})
+                .sort({date: -1})
+                .skip(pagesize * (pageno - 1))
+                .limit(pagesize)
+                .exec()
+            const total = await UserModel.count()
+            let resData = {
+                list: members,
+                total,
+                pageno,
+                pagesize
+            }
+
+            res.send(util.handleApiData(res, 200, '获取会员列表', resData))
+            // if(!_.isEmpty(members)){
+            //     res.send(util.handleApiData(res, 200, '', members))
+            // }
+        } catch(err){
+            res.send(util.handleApiErr(req, res, 500, err, 'getlist'))
+        }
+    }
+
+    // 添加会员
+    async addMemberAction(req, res, next) {
+        try{
+            const data = req.body;
+            const username = data.username
+            const member = await UserModel.findOne({username})
+            if(!_.isEmpty(member)){
+               return res.send(util.handleApiErr(req, res, 500, res.__("validate_hadUse_userName")))
+            }
+            const memberObj = {
+                username,
+                name: data.name,
+                email: data.email,
+                permissions: data.permissions,
+                group: data.group,
+                enable:data.enable,
+                tel: data.tel
+            }
+            const newMember = new UserModel(memberObj);
+            await newMember.save()
+            res.send(util.handleApiData(res, 200, '添加会员', {}))
+        }catch(err){
+            res.send(util.handleApiErr(req, res, 500, err, 'update'));
+        }
+    }
+
+    // 删除会员
+    async delMemberAction(req, res, next) {
+        try {
+            const _id = req.body._id
+            console.log(_id)
+            await UserModel.deleteOne({
+                _id
+            })
+
+            res.send(util.handleApiData(res, 200, '删除会员', {}))
+        } catch(err){
+            res.send(util.handleApiErr(req, res, 500, err, 'delete'));
+        }
+    }
+    async updataMemberAction(req, res, next) {
+        try {
+            // console.log(req.body)
+            // res.send(req.body)
+            const data = req.body;
+            const _id = data._id;
+            const memberObj = {
+                name: data.name,
+                email: data.email,
+                permissions: data.permissions,
+                group: data.group,
+                enable:data.enable
+            }
+
+            await UserModel.findOneAndUpdate({
+                _id
+            }, {
+                $set: memberObj
+            })
+
+            res.send(util.handleApiData(res, 200, 'Member', {}, 'update'))
+        }catch(err){
+            res.send(util.handleApiErrr(req, res, 500, err, 'update'));
+        }
+    }
+ 
 }
 
 
