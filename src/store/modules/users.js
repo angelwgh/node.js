@@ -51,6 +51,13 @@ export default {
 				data: data
 			})
 			.then(res => res)
+		},
+		setMemberPermissions({commit}, data){
+			return axios({
+				url: 'api/user/setMemberPermissions',
+				method: 'post',
+				data: data
+			})
 		}
 	}
 }

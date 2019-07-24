@@ -1,6 +1,7 @@
 <template>
 	<div class="user-manage" v-loading="loading">
-		<form-dialog @update="getMembersList" :dialog-data="formDialogData" :list="list"></form-dialog>
+		<form-dialog @update="getMembersList" :dialog-data="formDialogData"></form-dialog>
+		<permissions-dialog @update="getMembersList" :dialog-data="permissionDialogData"></permissions-dialog>
 		<el-button @click="addMember">添加</el-button>
 		<el-table
 		    :data="membersList.list"
@@ -17,10 +18,6 @@
 		      label="日期"
 		      width="180">
 		    </el-table-column>
-		    <el-table-column
-		      prop="permissions"
-		      label="权限">
-		    </el-table-column>
 		     <el-table-column
 		      prop="email"
 		      label="邮箱">
@@ -28,9 +25,10 @@
 		    <el-table-column
 		      fixed="right"
 		      label="操作"
-		      width="100">
+		      width="150">
 		      <template slot-scope="scope">
 		        <el-button @click="editMemberInfo(scope.row)" type="text" size="small">编辑</el-button>
+		        <el-button @click="setMemberPermissions(scope.row)" type="text" size="small">权限</el-button>
 		        <el-button @click="delMember(scope.row._id)" type="text" size="small">删除</el-button>
 		      </template>
 		    </el-table-column>
@@ -50,9 +48,11 @@
 <script>
 import { mapGetters } from "vuex";
 import formDialog from './formDialog.vue';
+import permissionsDialog from './permissionsDialog.vue';
 	export default {
 		components: {
-			formDialog
+			formDialog,
+			permissionsDialog
 		},
 		data() {
 	      return {
@@ -63,7 +63,11 @@ import formDialog from './formDialog.vue';
 				show: false,
 				data: {},
 				type: ''
-			}
+			},
+			permissionDialogData: {
+				show: false,
+				data: {}
+			},
 	      }
 	    },
 	    computed: {
@@ -96,7 +100,10 @@ import formDialog from './formDialog.vue';
 	    		this.formDialogData.data = _.cloneDeep(data)
 	    		this.formDialogData.type = '1'
 	    	},
-
+	    	setMemberPermissions: function (data) {
+	    		this.permissionDialogData.show = true;
+	    		this.permissionDialogData.data = _.cloneDeep(data)
+	    	},
 	    	addMember: function () {
 	    		this.formDialogData.show = true
 	    		this.formDialogData.data = {}

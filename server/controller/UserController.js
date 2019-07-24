@@ -79,7 +79,7 @@ class User {
             const user = await UserModel.findOne({ 'username': username }, { password: 0 , __v: 0})
                 .populate({
                     path: 'permissions',
-                    select: 'date'
+                    select: 'label'
                 }).exec()
             
 
@@ -96,13 +96,7 @@ class User {
         return await UserModel.findOne(params, { password: 0 });
     }
 
-    // 给用户添加权限
-    async addPermissionAction(req, res, next) {
-        const username = req.session.userInfo.username
-        const user = await UserModel.findOne({ 'username': username }, { password: 0 , __v: 0})
-        await UserModel.findOneAndUpdate({'username': username}, {$set: {permissions: req.body.id}})
-        res.send(user)
-    }
+    
 
     // 获取会员列表
 
@@ -172,6 +166,8 @@ class User {
             res.send(util.handleApiErr(req, res, 500, err, 'delete'));
         }
     }
+
+    // 更新会员信息
     async updataMemberAction(req, res, next) {
         try {
             // console.log(req.body)
@@ -196,6 +192,32 @@ class User {
         }catch(err){
             res.send(util.handleApiErrr(req, res, 500, err, 'update'));
         }
+    }
+
+    // 设置会员权限
+    async setMemberPermissionsAction(req, res, next) {
+        // const username = req.session.userInfo.username
+        // const user = await UserModel.findOne({ 'username': username }, { password: 0 , __v: 0})
+        // await UserModel.findOneAndUpdate({'username': username}, {$set: {permissions: req.body.id}})
+        try{
+            const _id = req.body.id;
+            const permissions = req.body.permissions;
+            // console.log(_.isArray(permissions))
+            if(_.isArray(permissions)){
+                await UserModel.findOneAndUpdate({_id}, {$set: {permissions}})
+                res.send(util.handleApiData(res, 200, '设置权限', {}))
+            }else{
+                throw {
+                    message:'参数错误'
+                }
+            }
+            
+            
+        }catch(err){
+            res.send(util.handleApiErr(req, res, 500, err, 'update'))
+        }
+       
+        
     }
  
 }

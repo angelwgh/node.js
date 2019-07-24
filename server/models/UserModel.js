@@ -17,10 +17,10 @@ const UserSchema = new Schema({
     group: String,
     enable:String,
     tel: String,
-    permissions: {
+    permissions: [{
         type: String,
         ref: 'Permission'
-    },
+    }],
     date: { type: Date, default: Date.now }
 })
 

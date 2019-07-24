@@ -23,9 +23,7 @@
 					<el-form-item label="注册日期" v-if="dialogData.type==='1'">
 						<el-input v-model="form.date" disabled></el-input>
 					</el-form-item>
-					<el-form-item label="用户权限">
-						<el-input v-model="form.permissions"></el-input>
-					</el-form-item>
+					
 					<el-form-item label="会员状态">
 						<el-input v-model="form.enable"></el-input>
 					</el-form-item>
@@ -37,16 +35,21 @@
 				    <el-button @click="dialogData.show = false">取 消</el-button>
 				    <el-button type="primary" @click="save">保存</el-button>
 				</span>
-			</el-dialog>
+		</el-dialog>
+		
 	</div>
 </template>
 <script>
+	
+
 	export default {
 		props: {
 			dialogData: Object,
 		},
+
 		data() {
 			return {
+				
 				form: {
 
 				}
@@ -74,20 +77,7 @@
 						}
 					})
 			},
-			add() {
-				console.log(this.form)
-				// this.$store.dispatch('addMember', this.form)
-				// 	.then(res => {
-
-				// 		if(res.data.status == 200){
-				// 			this.dialogData.show = false;
-				// 			this.$message({
-				// 				message: res.data.message,
-				// 				type: 'success'
-				// 			})
-				// 		}
-				// 	})
-			}
+			
 
 		}
 

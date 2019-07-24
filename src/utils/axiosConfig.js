@@ -3,13 +3,13 @@ const message = ELEMENT.Message
 
 axios.interceptors.response.use(data => {
 
-	console.log(data)
+	// console.log(data)
 	if(data.data.status == 500){
 		message.error({message: data.data.message })
 	}
 	return data
 }, err => {
-	console.dir(err)
+	// console.dir(err)
 	if(err && err && err.response){
 		switch (err.response.status) {
             case 400: err.message = '请求错误(400)'; break;
