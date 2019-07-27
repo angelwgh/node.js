@@ -2,7 +2,7 @@
 	<div>
 		<el-breadcrumb separator="/">
 			<el-breadcrumb-item v-for="(item) in levelList" :key="item.path">
-		        <router-link :to="item.redirect||item.path">{{ item.meta.name}}</router-link>
+		        <router-link :to="item.redirect||item.path">{{ item.meta.title}}</router-link>
 		    </el-breadcrumb-item>
 		</el-breadcrumb>
 		<!-- <span v-for="item in levelList">{{item.meta.name}}</span> -->

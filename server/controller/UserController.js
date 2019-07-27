@@ -1,10 +1,11 @@
 const UserModel = require('../models').User
-const { service , util} = require('../utils')
+const PermissionModel = require('../models').Permission;
+const { service, util } = require('../utils')
 const config = require('../../configs')
 const _ = require('lodash')
 
 class User {
-    constructor () {
+    constructor() {
         this.model = UserModel
     }
 
@@ -12,7 +13,7 @@ class User {
      * 用户注册
      */
     async regAction(req, res, next) {
-        
+
         const query = req.query;
         const userObj = {
             username: query.username,
@@ -21,7 +22,7 @@ class User {
             email: query.email || ''
         }
 
-        const user = await UserModel.find({ 'username': query.username }, { password: 0 , __v: 0})
+        const user = await UserModel.find({ 'username': query.username }, { password: 0, __v: 0 })
 
         const newUser = new UserModel(userObj);
         await newUser.save();
@@ -37,8 +38,8 @@ class User {
     /**
      *  用户登录
      */
-    async loginAction(req, res, next){
-        
+    async loginAction(req, res, next) {
+
         const errorMsg = '';
         // console.log(res)
         const userObj = {
@@ -46,16 +47,14 @@ class User {
             password: service.encrypt(req.query.password, config.encrypt_key)
         }
 
-       
-        const user = await UserModel.findOne(userObj, {password: 0})
-        if(!user){
+
+        const user = await UserModel.findOne(userObj, { password: 0 })
+        if (!user) {
             res.send(util.handleApiErr(req, res, 500, res.__("validate_login_notSuccess")))
-        }
-        else {
+        } else {
             // req.session.logined = true;
             req.session.userInfo = user;
-            res.cookie(config.auth_cookie_name, user._id, 
-                { path: '/', maxAge: 1000 * 60 * 60 * 24 * 30, signed: true, httpOnly: true }) //cookie 有效期30天
+            res.cookie(config.auth_cookie_name, user._id, { path: '/', maxAge: 1000 * 60 * 60 * 24 * 30, signed: true, httpOnly: true }) //cookie 有效期30天
             res.send(util.handleApiData(res, 200, '登录成功', {}))
         }
     }
@@ -63,7 +62,7 @@ class User {
     /**
      * 退出登录
      */
-    async loginOutAction(req, res, next){
+    async loginOutAction(req, res, next) {
         req.session.destroy();
         res.clearCookie(config.auth_cookie_name, { path: '/' });
         res.send(util.handleApiData(res, 200, res.__("validate_user_logoutOk")));
@@ -72,20 +71,33 @@ class User {
     /**
      * 获取用户信息
      */
-    async getUserInfoAction(req, res, next){
-        if(req.session.logined){
+    async getUserInfoAction(req, res, next) {
+        if (req.session.logined) {
             // const user = await UserModel.find({ 'username': query.username }, { password: 0 , __v: 0})
             const username = req.session.userInfo.username
-            const user = await UserModel.findOne({ 'username': username }, { password: 0 , __v: 0})
-                .populate({
-                    path: 'permissions',
-                    select: 'label'
-                }).exec()
-            
+            const user = await UserModel.findOne({ 'username': username }, { password: 0, __v: 0 })
+            req.session.userInfo = user
 
             res.send(util.handleApiData(res, 200, '', user))
-        }else{
+        } else {
             return res.send(util.handleApiErr(req, res, 500, res.__("label_notice_asklogin")))
+        }
+    }
+
+    // 获取用户权限列表
+    async getUserPermissionsAction(req, res, next) {
+        try {
+            if (req.session.logined) {
+                const username = req.session.userInfo.username
+                const user = await UserModel.findOne({ 'username': username }, { password: 0, __v: 0 })
+                const queryArr = user.permissions || []
+                const permissions = await PermissionModel.find({ _id: { $in: queryArr } })
+                res.send(util.handleApiData(res, 200, '', permissions))
+            } else {
+                return res.send(util.handleApiErr(req, res, 500, res.__("label_notice_asklogin")))
+            }
+        } catch (err) {
+            res.send(util.handleApiErr(req, res, 500, err, 'getlist'))
         }
     }
 
@@ -96,20 +108,32 @@ class User {
         return await UserModel.findOne(params, { password: 0 });
     }
 
-    
+
 
     // 获取会员列表
 
-    async getMembersListAction(req, res, next){
-        try{
+    async getMembersListAction(req, res, next) {
+        try {
             let pageno = Number(req.query.pageno) || 1;
             let pagesize = Number(req.query.pagesize) || 10
-            const members = await UserModel.find({}, { password: 0 , __v: 0})
-                .sort({date: -1})
+            let username = req.query.username;
+            let group = req.query.group;
+            const queryObj = {}
+            if (username) {
+                queryObj.username = username
+            }
+
+            if (group) {
+                queryObj.group = group
+            }
+            // if()
+
+            const members = await UserModel.find(queryObj, { password: 0, __v: 0 })
+                .sort({ date: -1 })
                 .skip(pagesize * (pageno - 1))
                 .limit(pagesize)
                 .exec()
-            const total = await UserModel.count()
+            const total = await UserModel.count(queryObj)
             let resData = {
                 list: members,
                 total,
@@ -118,22 +142,22 @@ class User {
             }
 
             res.send(util.handleApiData(res, 200, '获取会员列表', resData))
-            // if(!_.isEmpty(members)){
-            //     res.send(util.handleApiData(res, 200, '', members))
-            // }
-        } catch(err){
+                // if(!_.isEmpty(members)){
+                //     res.send(util.handleApiData(res, 200, '', members))
+                // }
+        } catch (err) {
             res.send(util.handleApiErr(req, res, 500, err, 'getlist'))
         }
     }
 
     // 添加会员
     async addMemberAction(req, res, next) {
-        try{
+        try {
             const data = req.body;
             const username = data.username
-            const member = await UserModel.findOne({username})
-            if(!_.isEmpty(member)){
-               return res.send(util.handleApiErr(req, res, 500, res.__("validate_hadUse_userName")))
+            const member = await UserModel.findOne({ username })
+            if (!_.isEmpty(member)) {
+                return res.send(util.handleApiErr(req, res, 500, res.__("validate_hadUse_userName")))
             }
             const memberObj = {
                 username,
@@ -141,13 +165,13 @@ class User {
                 email: data.email,
                 permissions: data.permissions,
                 group: data.group,
-                enable:data.enable,
+                enable: data.enable,
                 tel: data.tel
             }
             const newMember = new UserModel(memberObj);
             await newMember.save()
             res.send(util.handleApiData(res, 200, '添加会员', {}))
-        }catch(err){
+        } catch (err) {
             res.send(util.handleApiErr(req, res, 500, err, 'update'));
         }
     }
@@ -156,13 +180,12 @@ class User {
     async delMemberAction(req, res, next) {
         try {
             const _id = req.body._id
-            console.log(_id)
             await UserModel.deleteOne({
                 _id
             })
 
             res.send(util.handleApiData(res, 200, '删除会员', {}))
-        } catch(err){
+        } catch (err) {
             res.send(util.handleApiErr(req, res, 500, err, 'delete'));
         }
     }
@@ -179,7 +202,7 @@ class User {
                 email: data.email,
                 permissions: data.permissions,
                 group: data.group,
-                enable:data.enable
+                enable: data.enable
             }
 
             await UserModel.findOneAndUpdate({
@@ -189,7 +212,7 @@ class User {
             })
 
             res.send(util.handleApiData(res, 200, 'Member', {}, 'update'))
-        }catch(err){
+        } catch (err) {
             res.send(util.handleApiErrr(req, res, 500, err, 'update'));
         }
     }
@@ -199,27 +222,27 @@ class User {
         // const username = req.session.userInfo.username
         // const user = await UserModel.findOne({ 'username': username }, { password: 0 , __v: 0})
         // await UserModel.findOneAndUpdate({'username': username}, {$set: {permissions: req.body.id}})
-        try{
+        try {
             const _id = req.body.id;
             const permissions = req.body.permissions;
             // console.log(_.isArray(permissions))
-            if(_.isArray(permissions)){
-                await UserModel.findOneAndUpdate({_id}, {$set: {permissions}})
+            if (_.isArray(permissions)) {
+                await UserModel.findOneAndUpdate({ _id }, { $set: { permissions } })
                 res.send(util.handleApiData(res, 200, '设置权限', {}))
-            }else{
+            } else {
                 throw {
-                    message:'参数错误'
+                    message: '参数错误'
                 }
             }
-            
-            
-        }catch(err){
+
+
+        } catch (err) {
             res.send(util.handleApiErr(req, res, 500, err, 'update'))
         }
-       
-        
+
+
     }
- 
+
 }
 
 

@@ -33,7 +33,13 @@
 				</el-form-item>
 				<div v-if="form.type == '0'">
 					<el-form-item label="菜单图标">
-						<el-input v-model="form.icon"></el-input>
+						<span @click="iconsDialogData.show = true">
+							<span  v-if="form.icon" >
+								<el-button circle type="default" :icon="form.icon" style="margin-right: 10px"></el-button>{{form.icon}}
+							</span>
+							
+							<el-button v-else="form.icon" type="text">无</el-button>
+						</span>
 					</el-form-item>
 					<el-form-item label="路由key">
 						<el-input v-model="form.routePath"></el-input>
@@ -62,12 +68,13 @@
 			    <el-button type="primary" @click="save">保存</el-button>
 			</span>
 		</el-dialog>
+		<icons-dialog :dialog-data="iconsDialogData" @select="selectIcon"></icons-dialog>
 	</div>
 </template>
 <script>
 	import { mapGetters } from "vuex";
-
-	const defaultForm = {
+	import iconsDialog from "./iconsDialog.vue"
+ 	const defaultForm = {
 		name: '',
 	    api: '',
 	    enable: true,
@@ -80,7 +87,11 @@
 	    sortId: 0,
 	}
 
+	// console.log(iconsDialog)
 	export default {
+		components: {
+			iconsDialog
+		},
 		props: {
 			dialogData: Object,
 			list: Object
@@ -88,6 +99,7 @@
 		data () {
 			return{
 				form: JSON.parse(JSON.stringify(defaultForm)),
+				saveDispatch:'',
 				types: [
 					{
 						value: '0',
@@ -103,6 +115,9 @@
 					name: [{required: true, message: '请输入权限描述', trigger: 'blur' }],
 					label: [{required: true, message: '请输入权限名称', trigger: 'blur' }],
 					type: [{required: true, message: '请选择权限类型', trigger: 'change' }],
+				},
+				iconsDialogData: {
+					show: false
 				}
 			}
 		},
@@ -116,12 +131,20 @@
 				// this.form.parentId = value[0]
 
 			},
+			selectIcon(icon) {
+				console.log(icon)
+				this.form.icon = icon
+			},
 			save() {
 				this.$refs.form.validate(valid => {
 					if(valid){
-						const form ={};
-						this.form.parentId = this.cascader[0]
-						this.$store.dispatch('addSitePermission', this.form)
+						const form = _.cloneDeep(this.form);
+
+						form.parentId = this.cascader[0]
+						if(this.dialogData.type == 'edit'){
+							form._id = this.dialogData.data._id
+						}
+						this.$store.dispatch(this.saveDispatch, form)
 							.then(res =>{
 								if(res.data.status == 200){
 									this.$message({
@@ -149,13 +172,16 @@
 				this.initFormData(defaultForm)
 				let data = {};
 				let parentId = this.dialogData.data ? this.dialogData.data.parentId : '0';
-				if(this.dialogData.type == 'edit'){
+				const type = this.dialogData.type
+				if(type == 'edit'){
 					data = this.dialogData.data
 					
 				}
-				if(this.dialogData.type == 'add'){
+				if(type == 'add'){
 					parentId = this.dialogData.data ? this.dialogData.data._id : '0';
 				}
+
+				this.saveDispatch = type + 'SitePermission'
 				this.cascader = [parentId]
 				this.initFormData(data)
 			}

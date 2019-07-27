@@ -8,7 +8,8 @@ export default {
 		userInfo: {},//用户信息
 		logined: false,//登录状态
 		loaded: false, //页面初次加载完成
-		sitePermissions: []
+		sitePermissions: [],
+		icons: {}
 	},
 	getters: {
 		sidebar: state=> {
@@ -18,7 +19,8 @@ export default {
 		userInfo: state => state.userInfo,
 		logined: state => state.logined,
 		loaded: state => state.loaded,
-		sitePermissions: state => state.sitePermissions
+		sitePermissions: state => state.sitePermissions,
+		icons: state => state.icons
 	},
 	mutations: {
 		/**
@@ -50,6 +52,10 @@ export default {
 
 		UPDATA_SITE_PERMISSIONS: (state, data) => {
 			state.sitePermissions = data
+		},
+
+		UPDATA_ICONS: (state, data) => {
+			state.icons = data
 		}
 
 	},
@@ -121,6 +127,21 @@ export default {
 				return res
 			})
 		},
+		async editSitePermission({ commit, dispatch}, data){
+			/**
+			 * 编辑权限
+			 */
+			return await axios({
+				url:'/api/permission/updata',
+					method: 'post',
+					data
+			}).then(res => {
+				if(res.data.status == 200){
+					dispatch('getSitePermissions')
+				}
+				return res
+			})
+		},
 		async delSitePermission({ commit, dispatch}, data){
 			/**
 			 * 删除权限
@@ -133,6 +154,18 @@ export default {
 				if(res.data.status == 200){
 					dispatch('getSitePermissions')
 				}
+				return res
+			})
+		},
+
+		async getIcons({commit}, data){
+			return await axios({
+				url: 'api/icons/geticons'
+			}).then(res => {
+				if(res.data.status == 200){
+					commit('UPDATA_ICONS', res.data.data)
+				}
+				
 				return res
 			})
 		}

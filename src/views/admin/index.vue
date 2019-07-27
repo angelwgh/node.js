@@ -33,7 +33,7 @@ export default {
         ...mapGetters(["loaded", 'logined']),
     },
     mounted() {
-        console.log(this.loaded)
+        // console.log(this.loaded)
     }
 
 }

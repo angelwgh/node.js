@@ -89,7 +89,7 @@
 		        	return this.$store.dispatch("delSitePermission", {id})
 		        })
 		        .then( res => {
-		        	console.log(res)
+		        	// console.log(res)
 		        	if(res.data.status == 200){
 		        		this.$message({
 		        			message: res.data.message,
@@ -103,7 +103,7 @@
 		        	}
 		        })
 		        .catch( action => {
-		        	console.log(action)
+		        	// console.log(action)
 		        })
 			}
 			

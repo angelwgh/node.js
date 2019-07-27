@@ -17,7 +17,7 @@ router.beforeEach( (to, from, next) => {
 			router.addRoutes(addRouters); // 动态添加可访问路由表
 			store.dispatch('setPermissionStatus', true)
 			// console.log(to)
-			console.log(addRouters)
+			// console.log(addRouters)
 			// next({ ...to, replace: true})
 			// to.meta.replace = true
 			next({...to, replace: true})

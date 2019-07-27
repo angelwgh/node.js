@@ -3,12 +3,12 @@
 		<template v-if="showChildren.length > 0">
 			<el-submenu :index="item.name||item.path">
 				<template slot="title">
-		          <i class="el-icon-location"></i>
-		          <span slot="title">{{item.comments}}</span>
+		          <i :class="[item.icon]"></i>
+		          <span slot="title">{{item.label}}</span>
 		        </template>
 		        <template v-for="(child, index) in item.children" >
 		        	<div @click="clickLink(child.path,$event)" :key="index">
-		        		<el-menu-item :index="resolvePath(child.path)">{{child.comments}}</el-menu-item>
+		        		<el-menu-item :index="resolvePath(child.path)">{{child.label}}</el-menu-item>
 		        	</div>
 		        </template>
 		        
@@ -16,7 +16,7 @@
 		</template>
 		<template v-else>
 			<div @click="clickLink(item.path,$event)">
-        		<el-menu-item :index="resolvePath(item.path)"><i class="el-icon-setting"></i><span slot="title">{{item.comments}}</span></el-menu-item>
+        		<el-menu-item :index="resolvePath(item.path)"><i class="el-icon-setting"></i><span slot="title">{{item.label}}</span></el-menu-item>
         	</div>
 		</template>
 	</div>

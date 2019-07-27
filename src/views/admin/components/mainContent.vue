@@ -17,6 +17,7 @@ export default {
 	left: 0;
 	top: 80px;
 	bottom: 0;
+	overflow: auto;
 	background-color: #f2f2f2;
 }
 </style>

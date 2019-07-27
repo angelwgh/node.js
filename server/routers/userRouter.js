@@ -15,6 +15,7 @@ router.get('/user/getUserInfo', (req, res, next)=> {
 	// console.log(User)
 	User.getUserInfoAction(req, res, next)
 })
+router.get('/user/getUserPermissions', User.getUserPermissionsAction)
 
 router.get('/user/logout', (req, res, next)=> {
 	// console.log(User)

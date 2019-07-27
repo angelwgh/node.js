@@ -1,6 +1,7 @@
 
 import admin from '@/views/admin'
 import login from '@/views/login/login'
+import util from '@/utils'
 
 Vue.use(VueRouter)
 
@@ -25,12 +26,7 @@ export const constantRouterMap = [
 				// allow: 'all',
 			},
 			component: () => import('@/views/home/home'),
-		},{
-			path: 'permissionsManage',
-			name: 'permissionsManage',
-			component: () => import('@/views/permissionsManage'),
-		}
-		]
+		}]
 	},
 	{
 		path: '/login',
@@ -62,17 +58,42 @@ export const constantRouterMap = [
 //   	return buildTree(cateList);
 // }
 
+// 获取当前用户权限信息
 
+async function getUserPermission() {
+	return await axios({
+		url: 'api/user/getUserPermissions',
+	})
+	.then(res=>{
+		if(res.data.status == 200){
+			let list = res.data.data.filter(item => {
+				return item.type === '0'
+			})
+			list = buildTree(list)
+			console.log(list)
+			return list
+		}
+	})
+}
+
+
+// getUserPermission().then(res => {
+
+// 	console.log(util.buildTree(res.data.data))
+// })
 async function renderLeftMenu () {
 		return new Promise((resolve)=> {
 			let cateDataDom = document.getElementById('cateValue');
 			let cateList = JSON.parse(cateDataDom.value);
+			// console.log(cateList)
 			setTimeout(()=>{
 				resolve(buildTree(cateList))
 			}, 1000)
 			
 		})
 }
+
+
 
 
 /**
@@ -124,10 +145,10 @@ function renderTemp(temp, parent = false) {
 		temp.component = ()=> import('../views/' + temp.componentPath)
 	}
 	temp.hidden = !temp.enable;
-	temp.name = temp.label;
+	// temp.name = temp.label;
 	temp.meta = {
 	    title: temp.label,
-	    name: temp.comments
+	    name: temp.name
 	}
 	  if (temp.icon) {
 	    temp.meta.icon = temp.icon;
@@ -140,7 +161,7 @@ const baseRoute = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-let exRoute = renderLeftMenu()
+let exRoute = getUserPermission()
 
 // console.log(exRoute)
 
