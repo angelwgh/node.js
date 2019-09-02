@@ -5,6 +5,7 @@ const router = express.Router()
 const UserRouter = require('./userRouter')
 const permissionRouter = require('./permissionRouter')
 const iconsRouter = require('./iconsRouter')
+const logRouter = require('./logRouter')
 
 router.get('/test', (req, res, next) => {
     // console.log(User)
@@ -19,5 +20,6 @@ router.get('/test', (req, res, next) => {
 router.use('/', UserRouter)
 router.use('/', permissionRouter)
 router.use('/', iconsRouter)
+router.use('/', logRouter)
 
 module.exports = router

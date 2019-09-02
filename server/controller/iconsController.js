@@ -48,8 +48,4 @@ class Icons {
 
 }
 
-// const icons = 
-// icons.getIcons().then(res => {
-//     console.log(res)
-// })
 module.exports = new Icons()

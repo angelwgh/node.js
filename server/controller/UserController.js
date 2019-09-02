@@ -161,6 +161,7 @@ class User {
             }
             const memberObj = {
                 username,
+                password: service.encrypt(config.default_password, config.encrypt_key),
                 name: data.name,
                 email: data.email,
                 permissions: data.permissions,
@@ -198,11 +199,12 @@ class User {
             const data = req.body;
             const _id = data._id;
             const memberObj = {
-                name: data.name,
-                email: data.email,
-                permissions: data.permissions,
-                group: data.group,
-                enable: data.enable
+                name: data.name || '',
+                email: data.email || '',
+                permissions: data.permissions || [],
+                group: data.group || '',
+                enable: data.enable || true,
+                tel: data.tel || true
             }
 
             await UserModel.findOneAndUpdate({

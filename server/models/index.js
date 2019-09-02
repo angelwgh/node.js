@@ -12,15 +12,16 @@ db.once('open', () => {
     console.log('connect mongodb success')
 })
 
-db.on('error', function (error) {
+db.on('error', function(error) {
     console.error('Error in MongoDb connection: ' + error);
     mongoose.disconnect();
 });
 
-db.on('close', function () {
+db.on('close', function() {
     console.log('数据库断开，重新连接数据库');
 });
 
 
 exports.User = require('./UserModel')
 exports.Permission = require('./PermissionModel')
+exports.Log = require('./LogModel')

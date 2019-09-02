@@ -17,14 +17,14 @@ module.exports = {
     USERNAME: 'angelwgh',
     PASSWORD: '111111',
 
-   //  密码加密key
+    //  密码加密key
     encrypt_key: 'angelwgh',
     redis_ttl: 12,
 
     lang: 'zh-CN', // 设置默认语言
     languages: ['zh-CN', 'ja_jp', 'en'], // 可选语言
 
+    default_password: '123456abc'
 
 
- }
-
+}

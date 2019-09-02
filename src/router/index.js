@@ -24,6 +24,7 @@ export const constantRouterMap = [
 			name: 'home',
 			meta:{
 				// allow: 'all',
+				title: '首页'
 			},
 			component: () => import('@/views/home/home'),
 		}]

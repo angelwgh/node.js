@@ -15,7 +15,7 @@ export default {
 	position: absolute;
 	width: 100%;
 	left: 0;
-	top: 80px;
+	top: 90px;
 	bottom: 0;
 	overflow: auto;
 	background-color: #f2f2f2;
